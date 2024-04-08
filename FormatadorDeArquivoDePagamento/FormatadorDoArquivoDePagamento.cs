@@ -2,23 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FormatadorDeArquivoDePagamento
 {
-    public class FormatadorDoArquivoDePagamento
+    public interface IFormatadorService
     {
-        private static bool ArquivoEhValido(string caminho)
-        {            
-            if(string.IsNullOrEmpty(File.ReadAllText(caminho)))
-                return false;
+        List<LinhaDoArquivoDePagamento> FormatarLinhasDoArquivoDePagamento(string caminho);
+        void CriarArquivoDePagamentoFormatado(string caminho, List<LinhaDoArquivoDePagamento> linhas);
+    }
 
-            return true;
-        }
-
-        public static List<LinhaDoArquivoDePagamento> FormatarLinhasDoArquivoDePagamento(string caminho)
+    public class FormatadorDoArquivoDePagamento : IFormatadorService
+    {
+        public List<LinhaDoArquivoDePagamento> FormatarLinhasDoArquivoDePagamento(string caminho)
         {
             if (!ArquivoEhValido(caminho))
             {
@@ -40,7 +38,7 @@ namespace FormatadorDeArquivoDePagamento
             return linhasFormatadas;
         }
 
-        public static void CriarArquivoDePagamentoFormatado(string caminho, List<LinhaDoArquivoDePagamento> linhas)
+        public void CriarArquivoDePagamentoFormatado(string caminho, List<LinhaDoArquivoDePagamento> linhas)
         {
             if (linhas == null)
                 return;
@@ -68,7 +66,7 @@ namespace FormatadorDeArquivoDePagamento
                     planilhaDeTrabalho.Cell(1, cabecalho.index + 1).Value = cabecalho.value;
                 }
 
-                foreach(var linha in linhas.Select((value, index) => new { value, index }))
+                foreach (var linha in linhas.Select((value, index) => new { value, index }))
                 {
                     planilhaDeTrabalho.Cell(linha.index + 2, 1).Value = linha.value.Matricula;
                     planilhaDeTrabalho.Cell(linha.index + 2, 2).Value = linha.value.CPF;
@@ -84,11 +82,17 @@ namespace FormatadorDeArquivoDePagamento
 
                 workbook.SaveAs(caminho + "ArquivoEconsigTJTO.xlsx");
             }
-            
-
         }
 
-        private static LinhaDoArquivoDePagamento PopularLinhaDoArquivo(string item)
+        private bool ArquivoEhValido(string caminho)
+        {
+            if (string.IsNullOrEmpty(File.ReadAllText(caminho)))
+                return false;
+
+            return true;
+        }
+
+        private LinhaDoArquivoDePagamento PopularLinhaDoArquivo(string item)
         {
             return new LinhaDoArquivoDePagamento
             {

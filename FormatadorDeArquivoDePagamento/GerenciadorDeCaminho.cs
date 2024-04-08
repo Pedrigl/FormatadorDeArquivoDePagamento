@@ -1,14 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace FormatadorDeArquivoDePagamento
 {
-    public class GerenciadorDeCaminho
+    public interface ICaminhoService
     {
-        private static bool CaminhoValido(string caminho)
+        string ObterCaminho();
+    }
+
+    public class GerenciadorDeCaminho : ICaminhoService
+    {
+        public string ObterCaminho()
+        {
+            string caminho = string.Empty;
+
+            do
+            {
+                Console.WriteLine("Informe o caminho do arquivo:");
+                caminho = Console.ReadLine();
+            }
+            while (!CaminhoValido(caminho));
+
+            return caminho;
+        }
+
+        private bool CaminhoValido(string caminho)
         {
             if (string.IsNullOrEmpty(caminho))
             {
@@ -27,24 +43,8 @@ namespace FormatadorDeArquivoDePagamento
                 Console.WriteLine("Arquivo não encontrado. Tente novamente.");
                 return false;
             }
-                
 
             return true;
-        }
-
-        public static string ObterCaminho()
-        {
-            string caminho = string.Empty;
-
-            do
-            {
-                Console.WriteLine("Informe o caminho do arquivo:");
-                caminho = Console.ReadLine();
-            } 
-            
-            while (!CaminhoValido(caminho));
-
-            return caminho;
         }
     }
 }
