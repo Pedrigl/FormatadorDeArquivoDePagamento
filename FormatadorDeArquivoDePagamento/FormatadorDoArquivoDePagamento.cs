@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace FormatadorDeArquivoDePagamento
                 return null;
             }
 
-            string[] linhas = File.ReadAllLines(caminho);
+            string[] linhas = File.ReadAllLines(caminho, Encoding.GetEncoding("Windows-1252"));
 
             List<LinhaDoArquivoDePagamento> linhasFormatadas = new List<LinhaDoArquivoDePagamento>();
 
@@ -44,19 +45,46 @@ namespace FormatadorDeArquivoDePagamento
             if (linhas == null)
                 return;
 
-            var cabecalhos = new List<string>
+            using (var workbook = new XLWorkbook())
             {
-                "Matrícula",
-                "CPF",
-                "Nome",
-                "N1",
-                "N2",
-                "Código",
-                "Quantidade",
-                "Valor",
-                "Competência",
-                "Tipo"
-            };
+                var planilhaDeTrabalho = workbook.Worksheets.Add("Econsig TJTO");
+
+                var cabecalhos = new List<string>
+                {
+                    "Matrícula",
+                    "CPF",
+                    "Nome",
+                    "N1",
+                    "N2",
+                    "Código",
+                    "Quantidade",
+                    "Valor",
+                    "Competência",
+                    "Tipo"
+                };
+
+                foreach (var cabecalho in cabecalhos.Select((value, index) => new { value, index }))
+                {
+                    planilhaDeTrabalho.Cell(1, cabecalho.index + 1).Value = cabecalho.value;
+                }
+
+                foreach(var linha in linhas.Select((value, index) => new { value, index }))
+                {
+                    planilhaDeTrabalho.Cell(linha.index + 2, 1).Value = linha.value.Matricula;
+                    planilhaDeTrabalho.Cell(linha.index + 2, 2).Value = linha.value.CPF;
+                    planilhaDeTrabalho.Cell(linha.index + 2, 3).Value = linha.value.Nome.Normalize(NormalizationForm.FormD);
+                    planilhaDeTrabalho.Cell(linha.index + 2, 4).Value = linha.value.N1;
+                    planilhaDeTrabalho.Cell(linha.index + 2, 5).Value = linha.value.N2;
+                    planilhaDeTrabalho.Cell(linha.index + 2, 6).Value = linha.value.Codigo;
+                    planilhaDeTrabalho.Cell(linha.index + 2, 7).Value = linha.value.Quantidade;
+                    planilhaDeTrabalho.Cell(linha.index + 2, 8).Value = linha.value.Valor;
+                    planilhaDeTrabalho.Cell(linha.index + 2, 9).Value = linha.value.Competencia.ToDateTime(TimeOnly.MinValue);
+                    planilhaDeTrabalho.Cell(linha.index + 2, 10).Value = linha.value.Tipo;
+                }
+
+                workbook.SaveAs(caminho + "ArquivoEconsigTJTO.xlsx");
+            }
+            
 
         }
 
