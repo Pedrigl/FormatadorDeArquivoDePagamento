@@ -50,6 +50,7 @@ namespace FormatadorDeArquivoDePagamento
                 linhasFormatadas.Append(linhaDoArquivo);
             }
 
+            return linhasFormatadas;
         }
     }
 }
