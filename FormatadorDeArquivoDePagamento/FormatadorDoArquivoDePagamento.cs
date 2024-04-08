@@ -105,7 +105,7 @@ namespace FormatadorDeArquivoDePagamento
                 Quantidade = double.Parse(item.Substring(82, 13), CultureInfo.InvariantCulture),
                 Valor = double.Parse(item.Substring(95, 7), CultureInfo.InvariantCulture),
                 Competencia = DateOnly.ParseExact(item.Substring(102, 8), "ddMMyyyy", CultureInfo.InvariantCulture),
-                Tipo = char.Parse(item.Substring(110, 1))
+                Tipo = item.Substring(110, 1)
             };
         }
     }

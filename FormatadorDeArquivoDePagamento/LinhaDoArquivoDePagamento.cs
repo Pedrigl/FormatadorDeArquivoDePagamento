@@ -17,6 +17,6 @@ namespace FormatadorDeArquivoDePagamento
         public double Quantidade { get; set; }
         public double Valor { get; set; }
         public DateOnly Competencia { get; set; }
-        public char Tipo { get; set; }
+        public string Tipo { get; set; }
     }
 }
