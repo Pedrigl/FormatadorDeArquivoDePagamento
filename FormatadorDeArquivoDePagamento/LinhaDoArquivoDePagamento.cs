@@ -14,7 +14,7 @@ namespace FormatadorDeArquivoDePagamento
         public string N1 { get; set; }
         public string N2 { get; set; }
         public int Codigo { get; set; }
-        public int Quantidade { get; set; }
+        public double Quantidade { get; set; }
         public double Valor { get; set; }
         public DateOnly Competencia { get; set; }
         public char Tipo { get; set; }
