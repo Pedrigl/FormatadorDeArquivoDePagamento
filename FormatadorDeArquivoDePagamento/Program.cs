@@ -4,4 +4,9 @@ Console.WriteLine("Bem vindo ao Formatador de Arquivo de Pagamento!");
 
 string caminho = GerenciadorDeCaminho.ObterCaminho();
 
-var linha = FormatadorDoArquivoDePagamento.FormatarLinhasDoArquivoDePagamento(caminho)[0];
+var linhasFormatadas = FormatadorDoArquivoDePagamento.FormatarLinhasDoArquivoDePagamento(caminho);
+
+Console.WriteLine("Informe o caminho para salvar o arquivo formatado:");
+var caminhoPraSalvarArquivo = Console.ReadLine();
+
+FormatadorDoArquivoDePagamento.CriarArquivoDePagamentoFormatado(caminhoPraSalvarArquivo, linhasFormatadas);

@@ -39,6 +39,27 @@ namespace FormatadorDeArquivoDePagamento
             return linhasFormatadas;
         }
 
+        public static void CriarArquivoDePagamentoFormatado(string caminho, List<LinhaDoArquivoDePagamento> linhas)
+        {
+            if (linhas == null)
+                return;
+
+            var cabecalhos = new List<string>
+            {
+                "Matrícula",
+                "CPF",
+                "Nome",
+                "N1",
+                "N2",
+                "Código",
+                "Quantidade",
+                "Valor",
+                "Competência",
+                "Tipo"
+            };
+
+        }
+
         private static LinhaDoArquivoDePagamento PopularLinhaDoArquivo(string item)
         {
             return new LinhaDoArquivoDePagamento
