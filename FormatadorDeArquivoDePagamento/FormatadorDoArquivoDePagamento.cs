@@ -10,10 +10,7 @@ namespace FormatadorDeArquivoDePagamento
     public class FormatadorDoArquivoDePagamento
     {
         private static bool ArquivoEhValido(string caminho)
-        {
-            if(!caminho.EndsWith(".txt"))
-                return false;
-
+        {            
             if(string.IsNullOrEmpty(File.ReadAllText(caminho)))
                 return false;
 

@@ -16,6 +16,12 @@ namespace FormatadorDeArquivoDePagamento
                 return false;
             }
 
+            if (!caminho.EndsWith(".txt"))
+            {
+                Console.WriteLine("Arquivo inválido. Tente novamente com um arquivo TXT.");
+                return false;
+            }
+
             if (!File.Exists(caminho))
             {
                 Console.WriteLine("Arquivo não encontrado. Tente novamente.");
