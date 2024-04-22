@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FormatadorDeArquivoDePagamento
+namespace FormatadorDeArquivoDePagamento.Core
 {
     public class LinhaDoArquivoDePagamento
     {

@@ -1,5 +1,6 @@
-﻿using FormatadorDeArquivoDePagamento;
+﻿using FormatadorDeArquivoDePagamento.Core;
 using System.Diagnostics;
+
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
 Console.WriteLine("Bem vindo ao Formatador de Arquivo de Pagamento!");
